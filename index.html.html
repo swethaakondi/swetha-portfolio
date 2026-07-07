@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swetha Akondi — AI/ML &amp; Prompt Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171F;
+    --ink-soft:#1D212C;
+    --paper:#F7F5F0;
+    --paper-dim:#EDEAE2;
+    --gold:#E8A33D;
+    --gold-dim:#B9832F;
+    --slate:#8993A6;
+    --slate-dark:#4A5568;
+    --line:#2A2F3A;
+    --line-light:#DCD8CD;
+    --sage:#6B9080;
+    --display:"Fraunces", serif;
+    --body:"Inter", sans-serif;
+    --mono:"IBM Plex Mono", monospace;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  ::selection{ background:var(--gold); color:var(--ink); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  .wrap{ max-width:920px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,245,240,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-light);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-family:var(--mono); font-size:14px; font-weight:600;
+    letter-spacing:0.02em;
+  }
+  .brand .dot{ color:var(--gold); }
+  .navlinks{ display:flex; gap:28px; list-style:none; }
+  .navlinks a{
+    font-family:var(--mono); font-size:13px; text-decoration:none;
+    color:var(--slate-dark); position:relative; padding:4px 0;
+    transition:color .2s ease;
+  }
+  .navlinks a:hover{ color:var(--ink); }
+  .navlinks a:focus-visible, a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold); outline-offset:3px; border-radius:2px;
+  }
+  .navlinks a::after{
+    content:""; position:absolute; left:0; bottom:0; width:0; height:1px;
+    background:var(--gold); transition:width .25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+  .navtoggle{ display:none; }
+
+  /* ---------- HERO (console) ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--paper);
+    padding:88px 0 76px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 85% 12%, rgba(232,163,61,0.14), transparent 55%);
+    pointer-events:none;
+  }
+  .console{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--sage);
+    margin-bottom:34px;
+    min-height:24px;
+  }
+  .console .prompt-sym{ color:var(--gold); }
+  .console .cursor{
+    display:inline-block; width:8px; height:16px; background:var(--gold);
+    margin-left:2px; vertical-align:-2px;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(40px, 7vw, 68px);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    max-width:11ch;
+  }
+  .hero h1 em{
+    font-style:italic; font-weight:500; color:var(--gold);
+  }
+  .hero .role{
+    font-family:var(--mono);
+    font-size:15px;
+    color:var(--slate);
+    margin-top:20px;
+    letter-spacing:0.01em;
+  }
+  .hero .role .sep{ color:var(--gold); margin:0 8px; }
+
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:12px;
+    margin-top:36px;
+  }
+  .chip{
+    font-family:var(--mono); font-size:12px;
+    border:1px solid var(--line);
+    color:var(--slate);
+    padding:7px 12px;
+    border-radius:100px;
+  }
+
+  .hero-cta{ margin-top:40px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    padding:13px 22px; border-radius:4px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .18s ease, background .18s ease, color .18s ease;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{ background:var(--gold); color:var(--ink); }
+  .btn-primary:hover{ background:#F4B858; transform:translateY(-2px); }
+  .btn-ghost{ border-color:var(--line); color:var(--paper); }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+
+  /* ---------- SECTION HEADERS ---------- */
+  section{ padding:76px 0; border-bottom:1px solid var(--line-light); }
+  section:last-of-type{ border-bottom:none; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.08em;
+    color:var(--gold-dim); text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:""; width:20px; height:1px; background:var(--gold-dim);
+  }
+  h2.section-title{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(26px,4vw,36px);
+    margin-bottom:36px; max-width:20ch;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:52px;
+  }
+  .about-grid p{ color:var(--slate-dark); font-size:16px; }
+  .about-grid p + p{ margin-top:16px; }
+  .fact-list{ list-style:none; }
+  .fact-list li{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:13px 0; border-top:1px solid var(--line-light);
+    font-size:14px;
+  }
+  .fact-list li:last-child{ border-bottom:1px solid var(--line-light); }
+  .fact-list .k{ font-family:var(--mono); color:var(--slate); }
+  .fact-list .v{ text-align:right; font-weight:500; }
+
+  /* ---------- SKILLS ---------- */
+  .skill-groups{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+    border-top:1px solid var(--line-light);
+    border-left:1px solid var(--line-light);
+  }
+  .skill-card{
+    border-right:1px solid var(--line-light);
+    border-bottom:1px solid var(--line-light);
+    padding:26px 24px;
+  }
+  .skill-card .num{
+    font-family:var(--mono); font-size:12px; color:var(--gold-dim);
+  }
+  .skill-card h3{
+    font-family:var(--display); font-size:19px; font-weight:600;
+    margin:10px 0 14px;
+  }
+  .skill-card ul{ list-style:none; }
+  .skill-card li{
+    font-size:14px; color:var(--slate-dark);
+    padding:5px 0; position:relative; padding-left:14px;
+  }
+  .skill-card li::before{
+    content:"→"; position:absolute; left:0; color:var(--gold);
+    font-size:12px; top:6px;
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    display:grid; grid-template-columns:80px 1fr; gap:24px;
+    padding:32px 0; border-top:1px solid var(--line-light);
+  }
+  .project:last-child{ border-bottom:1px solid var(--line-light); }
+  .project .idx{
+    font-family:var(--mono); font-size:13px; color:var(--slate);
+    padding-top:4px;
+  }
+  .project h3{
+    font-family:var(--display); font-size:22px; font-weight:600;
+  }
+  .project .tag{
+    font-family:var(--mono); font-size:11px; color:var(--sage);
+    text-transform:uppercase; letter-spacing:0.06em;
+    margin-top:4px; display:inline-block;
+  }
+  .project p{ color:var(--slate-dark); margin-top:12px; max-width:60ch; }
+  .project .stack{
+    display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;
+  }
+  .project .stack span{
+    font-family:var(--mono); font-size:11px; color:var(--slate-dark);
+    background:var(--paper-dim); padding:4px 9px; border-radius:4px;
+  }
+
+  /* ---------- CERTS + AWARDS (two column) ---------- */
+  .split2{ display:grid; grid-template-columns:1fr 1fr; gap:56px; }
+  .list-clean{ list-style:none; }
+  .list-clean li{
+    padding:14px 0; border-top:1px solid var(--line-light);
+    font-size:14.5px; display:flex; gap:10px;
+  }
+  .list-clean li:last-child{ border-bottom:1px solid var(--line-light); }
+  .list-clean .bullet{ color:var(--gold-dim); font-family:var(--mono); }
+  .list-clean strong{ font-weight:600; }
+  .list-clean .meta{ display:block; font-size:12.5px; color:var(--slate); margin-top:2px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-sec{
+    background:var(--ink); color:var(--paper); border-bottom:none;
+    text-align:center; padding:96px 0 80px;
+    position:relative; overflow:hidden;
+  }
+  .contact-sec::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle at 50% 0%, rgba(232,163,61,0.12), transparent 60%);
+    pointer-events:none;
+  }
+  .contact-sec .eyebrow{ justify-content:center; color:var(--gold); }
+  .contact-sec .eyebrow::before{ display:none; }
+  .contact-sec h2{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(30px,5vw,44px); margin-bottom:18px;
+  }
+  .contact-sec p{ color:var(--slate); max-width:44ch; margin:0 auto 34px; }
+  .contact-links{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  footer{
+    background:var(--ink); color:var(--slate);
+    text-align:center; padding:22px 0;
+    font-family:var(--mono); font-size:12px;
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:760px){
+    .navlinks{
+      position:fixed; top:64px; left:0; right:0;
+      flex-direction:column; background:var(--paper);
+      border-bottom:1px solid var(--line-light);
+      padding:14px 28px; gap:0;
+      transform:translateY(-130%); transition:transform .25s ease;
+    }
+    .navlinks.open{ transform:translateY(0); }
+    .navlinks li{ padding:12px 0; border-top:1px solid var(--line-light); }
+    .navlinks li:first-child{ border-top:none; }
+    .navtoggle{
+      display:block; background:none; border:none; cursor:pointer;
+      font-family:var(--mono); font-size:20px; color:var(--ink);
+    }
+    .about-grid, .split2{ grid-template-columns:1fr; gap:32px; }
+    .skill-groups{ grid-template-columns:1fr; }
+    .project{ grid-template-columns:1fr; gap:8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">swetha<span class="dot">.</span>akondi</div>
+    <ul class="navlinks" id="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="navtoggle" id="navtoggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="console" id="console"><span class="prompt-sym">›</span> <span id="typed"></span><span class="cursor"></span></div>
+    <h1>Designing prompts.<br>Building <em>AI</em> that responds well.</h1>
+    <div class="role">B.Sc. Computer Science, 3rd Year<span class="sep">/</span>Aspiring AI/ML &amp; Prompt Engineer</div>
+    <div class="hero-meta">
+      <span class="chip">Kakinada, India</span>
+      <span class="chip">Himshikar Program — IIT Mandi</span>
+      <span class="chip">Open to Internships</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="mailto:swethaakondi007@gmail.com">Get in touch</a>
+      <a class="btn btn-ghost" href="#projects">See my work</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="eyebrow">01 — About</div>
+      <h2 class="section-title">A student who treats every prompt like a first draft worth refining.</h2>
+      <div class="about-grid">
+        <div>
+          <p>I'm a Computer Science undergraduate exploring how well-designed instructions shape AI behaviour. Through the Himshikar Program at IIT Mandi, I built AI-assisted tools from scratch — writing the prompts, testing the edge cases, and refining the logic until the output actually made sense.</p>
+          <p>Outside of AI, I like breaking problems down into steps that are boring enough to be reliable — whether that's a database query, a seminar on fluid dynamics, or a hackathon idea explained in ninety seconds.</p>
+        </div>
+        <ul class="fact-list">
+          <li><span class="k">Degree</span><span class="v">B.Sc. Computer Science</span></li>
+          <li><span class="k">College</span><span class="v">Aditya Degree College for Women</span></li>
+          <li><span class="k">Graduating</span><span class="v">2027</span></li>
+          <li><span class="k">Focus</span><span class="v">AI/ML · Prompt Engineering</span></li>
+          <li><span class="k">Languages</span><span class="v">Telugu, English, Hindi</span></li>
+          <li><span class="k">Based in</span><span class="v">Kakinada, Andhra Pradesh</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="eyebrow">02 — Skills</div>
+      <h2 class="section-title">What I bring to the table</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <div class="num">01</div>
+        <h3>AI / ML</h3>
+        <ul>
+          <li>Prompt Engineering</li>
+          <li>AI-assisted Development</li>
+          <li>Working with Generative AI Tools</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="num">02</div>
+        <h3>Programming</h3>
+        <ul>
+          <li>Python</li>
+          <li>Java</li>
+          <li>C++</li>
+          <li>SQL</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="num">03</div>
+        <h3>Web &amp; Tools</h3>
+        <ul>
+          <li>HTML &amp; CSS</li>
+          <li>MS Excel / Word / PPT</li>
+          <li>Presentation Design</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="eyebrow">03 — Projects</div>
+      <h2 class="section-title">Things I've built at the Himshikar Program, IIT Mandi</h2>
+
+      <div class="project">
+        <div class="idx">P01</div>
+        <div>
+          <h3>Instant Autocomplete System</h3>
+          <span class="tag">AI-assisted development</span>
+          <p>A text-prediction tool that suggests word and phrase completions in real time. I worked with AI models and prompt-based logic to get suggestions that actually felt useful, not just technically correct.</p>
+          <div class="stack"><span>Prompt Engineering</span><span>Python</span><span>AI Tools</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="idx">P02</div>
+        <div>
+          <h3>Contract Obligation Reminder System</h3>
+          <span class="tag">AI-assisted development</span>
+          <p>A system that tracks contract deadlines and automatically reminds users of pending obligations — built with structured prompt design to keep the reminders accurate and well-timed.</p>
+          <div class="stack"><span>Prompt Engineering</span><span>Python</span><span>Automation</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials">
+    <div class="wrap">
+      <div class="eyebrow">04 — Credentials</div>
+      <h2 class="section-title">Certifications, training &amp; recognition</h2>
+      <div class="split2">
+        <div>
+          <h3 style="font-family:var(--mono); font-size:13px; color:var(--slate); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Certifications</h3>
+          <ul class="list-clean">
+            <li><span class="bullet">▸</span><span><strong>Software Development with AI</strong><span class="meta">Himshikar Program, IIT Mandi — expected Jul 18, 2026</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>Foundations: Data, Data, Everywhere</strong><span class="meta">Google, via Coursera</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>Introduction to Data Engineering</strong><span class="meta">Coursera</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>Building Single Page Web Applications</strong><span class="meta">Coursera</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>Validate HTML Forms with JavaScript and HTML</strong><span class="meta">Coursera</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>Introduction to HTML</strong><span class="meta">Coursera</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-family:var(--mono); font-size:13px; color:var(--slate); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Webinars &amp; Achievements</h3>
+          <ul class="list-clean">
+            <li><span class="bullet">▸</span><span><strong>1st Prize</strong><span class="meta">Seminar on Mathematics Day, own college</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>3rd Prize</strong><span class="meta">Seminar on Fluid Dynamics, PR College</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>2 Hackathons</strong><span class="meta">Participation certificates</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>GenAI Mastermind</strong><span class="meta">Webinar</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>UI/UX Designing</strong><span class="meta">Webinar</span></span></li>
+            <li><span class="bullet">▸</span><span><strong>Freedom with AI</strong><span class="meta">Webinar</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="contact-sec" id="contact">
+  <div class="wrap">
+    <div class="eyebrow">05 — Contact</div>
+    <h2>Let's build something worth prompting for.</h2>
+    <p>Open to AI/ML and prompt engineering internships — happy to talk about projects, coursework, or opportunities.</p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:swethaakondi007@gmail.com">swethaakondi007@gmail.com</a>
+      <a class="btn btn-ghost" href="#about">Back to top ↑</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Swetha Akondi — Built with HTML &amp; CSS
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.getElementById('navtoggle');
+  const links = document.getElementById('navlinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Typing effect in hero console
+  const phrases = [
+    "describe(swetha) → 'CS undergrad, 3rd year, building with AI.'",
+    "status → 'open to AI/ML & prompt engineering internships.'"
+  ];
+  const typedEl = document.getElementById('typed');
+  let p = 0, c = 0, deleting = false;
+
+  function tick(){
+    const full = phrases[p];
+    if(!deleting){
+      c++;
+      typedEl.textContent = full.slice(0, c);
+      if(c === full.length){ deleting = true; setTimeout(tick, 1600); return; }
+    } else {
+      c--;
+      typedEl.textContent = full.slice(0, c);
+      if(c === 0){ deleting = false; p = (p+1) % phrases.length; }
+    }
+    setTimeout(tick, deleting ? 22 : 38);
+  }
+  tick();
+</script>
+
+</body>
+</html>
